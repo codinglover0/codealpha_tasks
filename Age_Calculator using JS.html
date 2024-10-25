@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Age Calculator</title>
+    <style>
+      body {
+        background-color: rgb(64, 54, 116);
+        background-color: rgb(109, 65, 61);
+        color: bisque;
+        font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+        font-size: 2.8rem;
+        font-weight: bolder;
+      }
+      #box1 {
+        margin-left: 200px;
+        width: 500px;
+        padding: 10px;
+        margin-top: 200px;
+        box-shadow: 0px 0px 2px 2px #212121;
+      }
+      button {
+        width: 100px;
+        height: 50px;
+        background-color: rgb(214, 164, 101);
+        font-size: 0.32em;
+        border-radius: 5px;
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans", Arial, sans-serif;
+      }
+      #box2 {
+        margin-left: 200px;
+        width: 500px;
+        padding: 10px;
+        margin-top: 50px;
+        font-size: 3rem;
+        box-shadow: 0px 0px 2px 2px #212121;
+      }
+      input {
+        padding: 12px 20px;
+        box-sizing: border-box;
+        border: none;
+        border-bottom: 2px solid #212121;
+        font-weight: bold;
+        font-size: 0.9rem;
+      }
+      ::-webkit-datetime-edit {
+        padding: 1em;
+        font-size: larger;
+        border: 1px solid #212121;
+        border-radius: 5px;
+      }
+      ::-webkit-datetime-edit-fields-wrapper {
+        background: white;
+      }
+      ::-webkit-datetime-edit-text {
+        padding: 0 0.3em;
+      }
+      ::-webkit-calendar-picker-indicator {
+        background-image: url("https://img.icons8.com/external-yogi-aprelliyanto-basic-outline-yogi-aprelliyanto/64/external-calender-time-and-date-yogi-aprelliyanto-basic-outline-yogi-aprelliyanto.png");
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box1">
+      <span>JavaScript</span><br />
+      <span style="color: rgb(216, 186, 148)">Age Calculator</span>
+    </div>
+    <div id="box2">
+      <input
+        type="text"
+        name="DOB"
+        id="DOB"
+        placeholder="Enter Date of Birth"
+      />
+      <input
+        type="text"
+        name="TodayDate"
+        id="TodayDate"
+        placeholder="Enter Today's Date"
+      />
+      <span
+        id="display"
+        style="
+          font-size: 1rem;
+          color: black;
+          font-weight: bold;
+          background-color: antiquewhite;
+          font-family: cursive;
+        "
+      ></span
+      ><br />
+
+      <button id="button">Calculate</button>
+      <p style="font-size: 1rem; color: bisque">
+        Note: Enter Date in dd/mm/yyyy format.
+      </p>
+    </div>
+  </body>
+
+  <script>
+    const days_in_months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    const days_in_leap_year = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    const mybutton = document.querySelector("#button");
+    if (mybutton) {
+      mybutton.addEventListener("click", function () {
+        var current_date = document.getElementById("DOB").value;
+        var target_date = document.getElementById("TodayDate").value;
+        let x = current_date.split("/");
+        let y = target_date.split("/");
+        if (
+          parseInt(x[0]) <= parseInt(y[0]) &&
+          parseInt(x[1]) <= parseInt(y[1])
+        ) {
+          const cd = parseInt(y[0]) - parseInt(x[0]);
+          const cm = parseInt(y[1]) - parseInt(x[1]);
+          const cy = parseInt(y[2]) - parseInt(x[2]);
+          console.log(x);
+          console.log(y);
+          console.log(`You are ${cy} years ${cm} months and ${cd} days old.`);
+          document.querySelector(
+            "#display"
+          ).innerHTML = `You are ${cy} years ${cm} month(s) and ${cd} day(s) old.`;
+        } else if (
+          parseInt(x[0]) <= parseInt(y[0]) &&
+          parseInt(x[1]) > parseInt(y[1])
+        ) {
+          console.log("function called");
+          let mcount = parseInt(y[1]) + 12 - parseInt(x[1]);
+          x[2] = (parseInt(x[2]) + 1).toString();
+          x[1] = mcount;
+          let cy = parseInt(y[2]) - parseInt(x[2]);
+          let cm = parseInt(x[1]);
+          let cd = parseInt(y[0]) - parseInt(x[0]);
+          console.log(
+            "You are",
+            cy,
+            "years",
+            cm,
+            "months and",
+            cd,
+            "days old."
+          );
+          document.querySelector(
+            "#display"
+          ).innerHTML = `You are ${cy} years ${cm} month(s) and ${cd} day(s) old.`;
+        } else if (
+          (parseInt(x[0]) >= parseInt(y[0]) &&
+            parseInt(x[1]) < parseInt(y[1])) ||
+          (parseInt(x[0]) > parseInt(y[0]) && parseInt(x[1]) > parseInt(y[1]))
+        ) {
+          let mcount = parseInt(y[1]) + 11 - parseInt(x[1]);
+          x[2] = (parseInt(x[2]) + 1).toString();
+          if (mcount > 12) {
+            x[1] = mcount - 12;
+          } else {
+            parseInt(x[1]) = mcount;
+            var cy = parseInt(y[2]) - parseInt(x[2]);
+            var cm = parseInt(x[1]);
+          }
+
+          if (parseInt(x[2]) % 4 != 0) {
+            const days_in_months = [
+              31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
+            ];
+            const days_in_leap_year = [
+              31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
+            ];
+            var cd =
+              days_in_months[parseInt(y[1]) - 2] -
+              parseInt(x[0]) +
+              parseInt(y[0]);
+          } else {
+            const days_in_months = [
+              31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
+            ];
+            const days_in_leap_year = [
+              31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
+            ];
+            cd =
+              days_in_leap_year[parseInt(y[1]) - 2] -
+              parseInt(x[0]) +
+              parseInt(y[0]);
+          }
+
+          if (mcount > 12) {
+            cy = cy + 1;
+          } else if (mcount == 12) {
+            cy = cy + 1;
+            cm = 0;
+          }
+          console.log(
+            "You are",
+            cy,
+            "years",
+            cm,
+            "months and",
+            cd,
+            "days old."
+          );
+          document.querySelector(
+            "#display"
+          ).innerHTML = `You are ${cy} years ${cm} month(s) and ${cd} day(s) old.`;
+        }
+      });
+    } else {
+      console.log("button not found");
+    }
+  </script>
+</html>
